@@ -3,14 +3,14 @@ import Configs from "../configs/ConfigDataBase";
 
 class ContentsCreateDatas {
   public async allDatas(req: Request, res: Response) {
-    const user = await Configs.knex("test_api");
+    const user = await Configs.knex("API");
     return res.status(200).json(user);
   }
 
   public async createDatas(req: Request, res: Response) {
     try {
-      const { name } = req.body;
-      await Configs.knex("test_api").insert({ name });
+      const { texts, image } = req.body;
+      await Configs.knex("API").insert({ texts, image });
       return res.status(200).json({ msg: "Dados inseridos com Sucesso" });
     } catch (e) {
       res.json(e);
@@ -20,11 +20,18 @@ class ContentsCreateDatas {
   public async deleteDatas(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      await Configs.knex("test_api").where({ id }).del();
-
-      return res.status(200).json({ msg: "DADO DELETADO" });
+      const idExisting = await Configs.knex("API").where("id", id).first();
+      if (!idExisting) {
+        return res.status(400).json({ msg: `ID:${id} NAO EXISTE` });
+      }
+      if (idExisting) {
+        await Configs.knex("API").where({ id }).del();
+        return res.status(200).json({ msg: `${id} DELETADO` });
+      }
     } catch (e) {
-      console.log(e);
+      return res
+        .status(500)
+        .json({ msg: "ERRO AO VERIFICAR DADOS EXISTENTES" });
     }
   }
 }

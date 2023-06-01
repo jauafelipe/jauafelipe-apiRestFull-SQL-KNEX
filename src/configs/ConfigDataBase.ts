@@ -18,9 +18,10 @@ class Create {
   }
 
   public createTable() {
-    this.knex.schema.createTable("test_api", (table) => {
+    this.knex.schema.createTable("API", (table) => {
       table.increments("id").primary();
-      table.string("name", 255).notNullable();
+      table.string("texts", 255).notNullable();
+      table.string("image", 255).notNullable();
     });
   }
 }

@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import { routes } from "./routes/routes";
 import "./configs/ConfigDataBase";
+
 class AppKnex {
   private app: express.Application;
   public constructor() {

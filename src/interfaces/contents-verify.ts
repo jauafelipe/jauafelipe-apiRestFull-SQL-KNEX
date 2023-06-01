@@ -5,5 +5,10 @@ export interface InterfaceVerifyDatas {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response | undefined>;
+  ): Promise<unknown | Response>;
+  verifyNotDatas(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | unknown>;
 }

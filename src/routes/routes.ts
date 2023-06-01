@@ -7,6 +7,7 @@ routes.get("/user", Contents.allDatas);
 routes.post(
   "/user",
   ContentsVerification.verifyContentsDatas,
+  ContentsVerification.verifyNotDatas,
   Contents.createDatas
 );
 routes.delete("/user/:id", Contents.deleteDatas);
