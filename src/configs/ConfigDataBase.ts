@@ -22,6 +22,7 @@ class Create {
       table.increments("id").primary();
       table.string("texts", 255).notNullable();
       table.string("image", 255).notNullable();
+      table.timestamps(true, true);
     });
   }
 }

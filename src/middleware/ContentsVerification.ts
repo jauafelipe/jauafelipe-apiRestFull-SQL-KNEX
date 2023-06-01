@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { InterfaceVerifyDatas } from "../interfaces/contents-verify";
 import ConfigDataBase from "../configs/ConfigDataBase";
+import { Knex } from "knex";
 
 class ContentsVerification implements InterfaceVerifyDatas {
   public async verifyContentsDatas(
@@ -39,6 +40,24 @@ class ContentsVerification implements InterfaceVerifyDatas {
           .json({ msg: "DADOS EM BRANCO, PORFAVOR INSERIR DADOS" });
     } catch (e) {
       return res.json({ msg: "ERRO AO VERIFICAR ENTRADAS" });
+    }
+    next();
+  }
+
+  public async idExistingInDataBase(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | unknown> {
+    const { id } = req.params;
+    try {
+      const dataId: Knex[] = await ConfigDataBase.knex("API")
+        .where("id", id)
+        .first();
+
+      if (!dataId) return res.status(400).json({ msg: "ID NAO ENCONTRADO" });
+    } catch (e) {
+      return res.status(400).json({ msg: `ERROR ${e}` });
     }
     next();
   }

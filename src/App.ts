@@ -2,8 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
-import { routes } from "./routes/routes";
+import { route } from "./routes/routes";
 import "./configs/ConfigDataBase";
+import "./selects-table/table";
 
 class AppKnex {
   private app: express.Application;
@@ -20,7 +21,7 @@ class AppKnex {
   }
 
   public routes() {
-    this.app.use(routes);
+    this.app.use(route);
   }
 
   public server() {

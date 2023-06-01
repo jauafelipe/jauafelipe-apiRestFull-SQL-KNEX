@@ -1,17 +1,21 @@
 import { Router } from "express";
 import Contents from "../controllers/ContentsController";
 import ContentsVerification from "../middleware/ContentsVerification";
-const routes = Router();
+const route = Router();
 
-routes.get("/user", Contents.allDatas);
-routes.get("/user/:id", Contents.idDatas);
-routes.post(
+route.get("/user", Contents.allDatas);
+route.get("/user/:id", Contents.idDatas);
+route.post(
   "/user",
   ContentsVerification.verifyContentsDatas,
   ContentsVerification.verifyNotDatas,
   Contents.createDatas
 );
-routes.delete("/user/:id", Contents.deleteDatas);
-routes.put("/user/:id", Contents.editDatasID);
+route.delete("/user/:id", Contents.deleteDatas);
+route.put(
+  "/user/:id",
+  ContentsVerification.idExistingInDataBase,
+  Contents.editDatasID
+);
 
-export { routes };
+export { route };

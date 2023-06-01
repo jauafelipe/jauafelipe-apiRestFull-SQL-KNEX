@@ -11,4 +11,9 @@ export interface InterfaceVerifyDatas {
     res: Response,
     next: NextFunction
   ): Promise<Response | unknown>;
+  idExistingInDataBase(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | unknown>;
 }

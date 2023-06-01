@@ -6,6 +6,17 @@ class ContentsCreateDatas {
     const user = await Configs.knex("API");
     return res.status(200).json(user);
   }
+  public async idDatas(req: Request, res: Response): Promise<unknown> {
+    try {
+      const { id } = req.params;
+      if (id) {
+        const datas = await Configs.knex("API").where({ id }).first();
+        return res.status(200).json(datas);
+      }
+    } catch (e) {
+      return res.status(400).json({ msg: "ERRO AO PROCURAR ID" });
+    }
+  }
 
   public async createDatas(req: Request, res: Response) {
     try {
@@ -35,27 +46,15 @@ class ContentsCreateDatas {
     }
   }
 
-  public async idDatas(req: Request, res: Response): Promise<unknown> {
-    try {
-      const { id } = req.params;
-      if (id) {
-        const datas = await Configs.knex("API").where({ id }).first();
-        return res.status(200).json(datas);
-      }
-    } catch (e) {
-      return res.status(400).json({ msg: "ERRO AO PROCURAR ID" });
-    }
-  }
-
   public async editDatasID(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const { texts, image } = req.body;
       if (id) {
         await Configs.knex("API").where({ id }).update({ texts, image });
-        return res.status(200).json({ msg: "DADOS ATUALIZADOS" });
+
+        return res.status(200).json({ msg: `ID:${id} DADOS ATUALIZADOS` });
       }
-      if (!id) return res.status(500).json({ msg: "NAO EXISTE ESSE ID" });
     } catch (e) {
       console.log(e);
       return res.status(400).json({ msg: "ERRO AO EDITAR ID" });
